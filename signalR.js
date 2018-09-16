@@ -270,9 +270,9 @@ function getArgValues(params) {
 }
 
 function handlerErrors(errorMessage, e, errorData) {
-    console.log("Error Message: ", errorMessage);
-    console.log("Exception: ", e);
-    console.log("Error Data: ", errorData);
+    console.debug("Error Message: ", errorMessage);
+    console.debug("Exception: ", e);
+    console.debug("Error Data: ", errorData);
 
     //throw errorMessage;
 }
@@ -514,15 +514,15 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
             var req = requestObject.request(abortUrlOptions,
             function (res) {
 
-                //console.log('STATUS: ' + res.statusCode);
-                //console.log('HEADERS: ' + JSON.stringify(res.headers));
+                //console.debug('STATUS: ' + res.statusCode);
+                //console.debug('HEADERS: ' + JSON.stringify(res.headers));
 
                 res.on('data', function (chunk) {
                     //str += chunk;
                 });
 
                 res.on('end', function () {
-                    console.log('Connection aborted');
+                    console.debug('Connection aborted');
 
                 });
 
@@ -557,10 +557,10 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
                         if (_client.serviceHandlers.onUnauthorized) {
                             _client.serviceHandlers.onUnauthorized(res);
                         } else {
-                            console.log('start::Unauthorized (' + res.statusCode + ')');
+                            console.debug('start::Unauthorized (' + res.statusCode + ')');
                         }
                     } else {
-                        console.log('start::unknown (' + res.statusCode + ')');
+                        console.debug('start::unknown (' + res.statusCode + ')');
                     }
                 } catch (e) {
                     onError('Parse Error', e, startData);
@@ -660,7 +660,7 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
             if (_client.serviceHandlers.connectFailed) {
                 _client.serviceHandlers.connectFailed.apply(client, [error]);
             } else {
-                console.log("Connect Failed!");
+                console.debug("Connect Failed!");
             }
         }
     });
@@ -674,7 +674,7 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
             if (_client.serviceHandlers.reconnected) {
                 _client.serviceHandlers.reconnected.apply(client, [connection]);
             } else {
-                console.log("Reconnected!");
+                console.debug("Reconnected!");
             }
         } else {
             if (_client.serviceHandlers.connected) {
@@ -684,7 +684,7 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
                 },
                 handlerErrors);
             } else {
-                console.log("Connected!");
+                console.debug("Connected!");
             }
         }
         connection.on('error', function (error) {
@@ -697,14 +697,14 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
                 if (_client.serviceHandlers.connectionLost) {
                     _client.serviceHandlers.connectionLost.apply(client, [error]);
                 } else {
-                    console.log("Scheduled Reconnection: " + error.toString());
+                    console.debug("Scheduled Reconnection: " + error.toString());
                 }
                 scheduleReconnection(true);
             } else {
                 if (_client.serviceHandlers.onerror) {
                     _client.serviceHandlers.onerror.apply(client, [error]);
                 } else {
-                    console.log("Connection Error: " + error.toString());
+                    console.debug("Connection Error: " + error.toString());
                 }
             }
         });
