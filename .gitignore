@@ -3,6 +3,5 @@
 .ntvs_analysis.dat
 bin/
 obj/
-src/
-node_modules/
-WhitedUS.SignalR/WhitedUS.signalR/npm-debug.log
+\node_modules/
+npm-debug.log
