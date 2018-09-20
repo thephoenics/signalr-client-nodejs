@@ -87,10 +87,10 @@ function negotiateProxies(baseUrl, hubNames, onSuccess, onError, _client) {
     }
 
     var negotiateData = "";
-    var negotiateUrl = baseUrl + "/negotiate?" + querystring.stringify({
+    var negotiateUrl = baseUrl + "/negotiate?" + querystring.stringify(Object.assign({
         connectionData: JSON.stringify(cleanedHubs),
         clientProtocol: 1.5
-    });
+    }, _client.queryString));
     var negotiateUrlOptions = url.parse(negotiateUrl, true);
 
     var negotiateFunction = function (res) {
@@ -586,7 +586,9 @@ function clientInterface(baseUrl, hubs, reconnectTimeout, doNotStart) {
                             console.debug('start::Unauthorized (' + res.statusCode + ')');
                         }
                     } else {
-                        console.debug('start::unknown (' + res.statusCode + ')');
+                        const error = 'start::unknown (' + res.statusCode + ')';
+                        console.log(error);
+                        onError(error, new Error(error), startData);
                     }
                 } catch (e) {
                     onError('Parse Error', e, startData);
